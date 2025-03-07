@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                  colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#4B4BC4',
+                        darkBg: '#181818',
+                        darkCard: '#222222',
+                        lightBg: '#FFFFFF',
+                        lightCard: '#F5F5F5',
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #5D5CDE;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .10em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #5D5CDE; }
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            position: relative;
+            background: #E0E0E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar .progress {
+            position: absolute;
+            height: 100%;
+            border-radius: 4px;
+            background: #5D5CDE;
+            transition: width 1s ease-in-out;
+        }
+        
+        .dark .progress-bar {
+            background: #303030;
+        }
+        
+        .circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #5D5CDE;
+        }
+        
+        .timeline-connector {
+            width: 2px;
+            background-color: #5D5CDE;
+            height: 100%;
+            margin-left: 3px;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+
+        #nav-menu {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #5D5CDE;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        .dark .skill-card {
+            background-color: #222222;
+        }
+
+        .skill-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .skill-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(93, 92, 222, 0.2);
+        }
+
+        .back-to-top {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Chatbot styles */
+        .chatbot-container {
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-messages {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .typing-indicator span {
+            animation: blink 1.4s infinite both;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.1; }
+            20% { opacity: 1; }
+            100% { opacity: 0.1; }
+        }
+    </style>
+</head>
+<body class="bg-lightBg dark:bg-darkBg text-gray-800 dark:text-gray-200">
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+        <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+        <i class="fas fa-moon text-indigo-300 hidden dark:block"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white dark:bg-darkBg z-40 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#hero" class="text-2xl font-bold text-primary">Portfolio</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="nav-item font-medium hover:text-primary transition-colors">About</a>
+                    <a href="#skills" class="nav-item font-medium hover:text-primary transition-colors">Skills</a>
+                    <a href="#projects" class="nav-item font-medium hover:text-primary transition-colors">Projects</a>
+                    <a href="#education" class="nav-item font-medium hover:text-primary transition-colors">Education</a>
+                    <a href="#contact" class="nav-item font-medium hover:text-primary transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="menu-toggle" class="text-gray-600 dark:text-gray-200 hover:text-primary dark:hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="nav-menu" class="md:hidden bg-white dark:bg-darkBg shadow-md transform -translate-y-full h-0 overflow-hidden">
+            <div class="px-4 pt-2 pb-3 space-y-1">
+                <a href="#about" class="block py-2 font-medium hover:text-primary transition-colors">About</a>
+                <a href="#skills" class="block py-2 font-medium hover:text-primary transition-colors">Skills</a>
+                <a href="#projects" class="block py-2 font-medium hover:text-primary transition-colors">Projects</a>
+                <a href="#education" class="block py-2 font-medium hover:text-primary transition-colors">Education</a>
+                <a href="#contact" class="block py-2 font-medium hover:text-primary transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center pt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+                        <span class="block">Hello, I'm</span>
+                        <span class="block text-primary typewriter">a Tech Enthusiast</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">Full-Stack Developer | AI Specialist | Electronics Engineer</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="px-6 py-3 bg-primary hover:bg-secondary text-white rounded-lg transition-colors shadow-lg hover:shadow-xl">
+                            Get in Touch
+                        </a>
+                        <a href="#projects" class="px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white dark:hover:text-white rounded-lg transition-all shadow-lg hover:shadow-xl">
+                            View Projects
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+                        <div class="absolute inset-0 bg-primary rounded-full opacity-20 animate-pulse"></div>
+                        <div class="absolute inset-4 bg-lightBg dark:bg-darkBg rounded-full flex items-center justify-center">
+                            <div class="text-6xl sm:text-7xl">
+                                <i class="fas fa-laptop-code text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="absolute top-0 -right-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-bounce-slow">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <div class="absolute bottom-4 -left-4 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                            <i class="fas fa-robot text-white"></i>
+                        </div>
+                        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-lg animate-bounce-slow" style="animation-delay: 1s;">
+                            <i class="fas fa-shield-alt text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 hidden md:block animate-bounce">
+                <a href="#about" class="text-primary">
+                    <i class="fas fa-chevron-down text-3xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-lightCard dark:bg-darkCard">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-center">About <span class="text-primary">Me</span></h2>
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-10">
+                <div class="md:w-1/3 flex flex-col items-center">
+                    <div class="w-48 h-48 bg-primary rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-user text-7xl text-white"></i>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#0077B5] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#333] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#1DA1F2] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-semibold mb-4">Who am I?</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        I'm a versatile technologist with a strong foundation in both electronics and software engineering. My journey has taken me from circuit design to machine learning models, and I'm passionate about creating innovative solutions that bridge hardware and software.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">
+                        With expertise in AI, machine learning, web development, and cybersecurity, I approach problems holistically, drawing from multiple disciplines to craft elegant and efficient solutions. I believe in continuous learning and am currently expanding my knowledge in quantum computing.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <p class="font-medium"><i class="fas fa-user-graduate text-primary mr-2"></i> Degree: <span class="text-gray-600 dark:text-gray-400">Electronics & Communication Engineering</span></p>
+                        </div>
+                        <div>
+                            <p class="font-medium"><i class="fas fa-code text-primary mr-2"></i> Experience: <span class="text-gray-600 dark:text-gray-400">5+ Years</span></p>
+                        </div>
+                        <div>
+                            <p class="font-medium"><i class="fas fa-envelope text-primary mr-2"></i> Email: <span class="text-gray-600 dark:text-gray-400">papillonbeki@gmail.com</span></p>
+                        </div>
+                        <div>
+                            <p class="font-medium"><i class="fas fa-map-marker-alt text-primary mr-2"></i> Location: <span class="text-gray-600 dark:text-gray-400">Ethiopia</span></p>
+                        </div>
+                    </div>
+                    <a href="#contact" class="inline-block px-6 py-3 bg-primary hover:bg-secondary text-white rounded-lg transition-colors shadow-md hover:shadow-lg">
+                        Contact Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-2 text-center">My <span class="text-primary">Skills</span></h2>
+            <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Here are my technical expertise and knowledge areas</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Programming Languages -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Programming Languages</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Python</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>C++</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>JavaScript</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI & Machine Learning -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">AI & Machine Learning</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>TensorFlow</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>IBM Watson</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Scikit-Learn</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Web Development -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Web Development</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>HTML/CSS</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>React</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Django</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cybersecurity -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Cybersecurity</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Network Security</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Penetration Testing</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Security Analysis</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Electronics -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Electronics</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Circuit Design</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Embedded Systems</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>PCB Design</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quantum Computing -->
+                <div class="skill-card bg-lightCard dark:bg-darkCard p-6 rounded-lg shadow-md">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Quantum Computing</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Quantum Algorithms</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>IBM Qiskit</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span>Quantum Theory</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soft Skills -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Soft <span class="text-primary">Skills</span></h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Problem Solving</span>
+                    </div>
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Critical Thinking</span>
+                    </div>
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Team Collaboration</span>
+                    </div>
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Effective Communication</span>
+                    </div>
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Project Management</span>
+                    </div>
+                    <div class="bg-lightCard dark:bg-darkCard px-6 py-3 rounded-full shadow-md">
+                        <span class="font-medium">Continuous Learning</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-lightCard dark:bg-darkCard">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-2 text-center">My <span class="text-primary">Projects</span></h2>
+            <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Explore my recent works and technical expertise</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Loan Default Prediction -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('loan-prediction')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Loan Default Prediction</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Machine learning model using TensorFlow to predict loan defaults with 92% accuracy.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">TensorFlow</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm">Python</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 rounded-full text-sm">ML</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Speaker Recognition System -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('speaker-recognition')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Speaker Recognition System</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">AI-based voice recognition system using IBM Watson for authentication.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">IBM Watson</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 rounded-full text-sm">AI</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Secure Messaging App -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('secure-messaging')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Secure Messaging App</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">End-to-end encrypted messaging application with strong security protocols.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm">Encryption</span>
+                            <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 rounded-full text-sm">React</span>
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-100 rounded-full text-sm">Cybersecurity</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Smart Home Automation -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('smart-home')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Smart Home Automation</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">IoT-based home automation system with voice control and mobile app integration.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">IoT</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm">Embedded C</span>
+                            <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-100 rounded-full text-sm">Electronics</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quantum Algorithm Simulator -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('quantum-simulator')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Quantum Algorithm Simulator</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Simulation of quantum algorithms using IBM's Qiskit framework.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">Qiskit</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm">Python</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 rounded-full text-sm">Quantum</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Website -->
+                <div class="bg-white dark:bg-darkBg rounded-lg overflow-hidden shadow-lg hover-lift">
+                    <div class="h-48 bg-gray-200 dark:bg-gray-700 relative project-card">
+                        <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-primary bg-opacity-80 opacity-0 transition-opacity project-overlay flex items-center justify-center">
+                            <button class="px-4 py-2 bg-white text-primary rounded-lg font-medium" onclick="viewProject('portfolio-website')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Portfolio Website</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Modern, responsive portfolio website using React and TailwindCSS.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm">React</span>
+                            <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-100 rounded-full text-sm">TailwindCSS</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 rounded-full text-sm">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Modal -->
+            <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                <div class="bg-white dark:bg-darkBg rounded-lg max-w-2xl w-full mx-4 overflow-hidden shadow-2xl">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                            <button onclick="closeProjectModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        <div id="modal-content" class="text-gray-600 dark:text-gray-400"></div>
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="closeProjectModal()" class="px-4 py-2 bg-primary hover:bg-secondary text-white rounded-lg transition-colors">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-2 text-center">Education & <span class="text-primary">Certifications</span></h2>
+            <p class="text-gray-600 dark:text-gray-400 text-center mb-12">My educational background and professional certifications</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Education Timeline -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">Education</h3>
+                    <div class="space-y-10">
+                        <div class="flex">
+                            <div class="mr-4 flex flex-col items-center">
+                                <div class="circle"></div>
+                                <div class="timeline-connector flex-grow"></div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                                    <h4 class="text-lg font-semibold">B.Tech in Electronics & Communication Engineering</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-1">Adama Science And Technology University</p>
+                                    <p class="text-primary font-medium mt-1">2014 - 2018</p>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-3">Graduated with honors, specializing in digital signal processing and embedded systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4 flex flex-col items-center">
+                                <div class="circle"></div>
+                                <div class="timeline-connector flex-grow"></div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                                    <h4 class="text-lg font-semibold">Master's in Artificial Intelligence</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-1">Prestigious Technical Institute</p>
+                                    <p class="text-primary font-medium mt-1">2019 - 2021</p>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-3">Specialized in Artificial Intelligence and Machine Learning, with a thesis on neural networks for embedded systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4 flex flex-col items-center">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                                    <h4 class="text-lg font-semibold">Quantum Computing Specialization</h4>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-1">Online Tech Academy</p>
+                                    <p class="text-primary font-medium mt-1">2022 - Present</p>
+                                    <p class="text-gray-600 dark:text-gray-400 mt-3">Currently pursuing advanced studies in quantum computing fundamentals and applications.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certifications -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">Certifications</h3>
+                    <div class="space-y-6">
+                        <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-300 mr-4">
+                                    <i class="fas fa-certificate text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold">IBM Watson AI Professional</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">IBM</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">Advanced certification in IBM Watson AI platforms and services. Completed with distinction.</p>
+                        </div>
+                        
+                        <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center text-green-600 dark:text-green-300 mr-4">
+                                    <i class="fas fa-shield-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Cybersecurity Specialist</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Cybersecurity Institute</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">Comprehensive certification covering network security, penetration testing, and security analysis.</p>
+                        </div>
+                        
+                        <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center text-purple-600 dark:text-purple-300 mr-4">
+                                    <i class="fas fa-code text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Full-Stack Web Developer</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Web Development Academy</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">Professional certification in full-stack web development, including React, Node.js, and modern web frameworks.</p>
+                        </div>
+                        
+                        <div class="bg-lightCard dark:bg-darkCard p-5 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center text-red-600 dark:text-red-300 mr-4">
+                                    <i class="fas fa-microchip text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Advanced Embedded Systems Design</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Electronics Engineering Association</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400">Specialized certification in designing and implementing advanced embedded systems for IoT applications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-lightCard dark:bg-darkCard">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-2 text-center">Contact <span class="text-primary">Me</span></h2>
+            <p class="text-gray-600 dark:text-gray-400 text-center mb-12">Get in touch for collaboration or inquiries</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <div class="bg-white dark:bg-darkBg p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">Send Me a Message</h3>
+                        <form id="contact-form" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2">Your Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white text-base" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white text-base" placeholder="john@example.com" required>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white text-base" placeholder="Project Inquiry" required>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white resize-none text-base" placeholder="Your message here..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-primary hover:bg-secondary text-white rounded-lg transition-colors shadow-md hover:shadow-lg">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-white dark:bg-darkBg p-8 rounded-lg shadow-md mb-8">
+                        <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Email</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">papillonbeki@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone-alt text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Phone</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">+251986890708</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Location</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Debre Birehan, Minilik sub-city</sub-city></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-globe text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Website</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">www.portfolio-example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Assistant -->
+                    <div class="bg-white dark:bg-darkBg p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">AI Assistant</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Ask my AI assistant about my skills and projects</p>
+                        
+                        <div class="chatbot-container rounded-lg border dark:border-gray-700 overflow-hidden">
+                            <div class="chatbot-messages p-4 bg-gray-50 dark:bg-gray-800 mb-4">
+                                <div id="chat-messages" class="space-y-3">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-sm"></i>
+                                        </div>
+                                        <div class="bg-primary bg-opacity-10 dark:bg-opacity-30 p-3 rounded-lg max-w-[90%]">
+                                            <p class="text-gray-800 dark:text-gray-200">Hello! I'm an AI assistant. Ask me about the portfolio owner's skills, projects, or experience!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 border-t dark:border-gray-700">
+                                <form id="chatbot-form" class="flex gap-2">
+                                    <input type="text" id="chat-input" class="flex-1 px-4 py-2 rounded-lg border dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white text-base" placeholder="Ask something..." required>
+                                    <button type="submit" class="px-4 py-2 bg-primary hover:bg-secondary text-white rounded-lg transition-colors">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-gray-100 dark:bg-gray-900">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold text-primary">My Portfolio</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">Showcasing my skills and projects</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-[#0077B5] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-[#333] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-[#1DA1F2] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-[#E4405F] flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 dark:text-gray-400">&copy; 2023 My Portfolio. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shadow-lg z-30">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Project Details Data -->
+    <script>
+        const projectDetails = {
+            'loan-prediction': {
+                title: 'Loan Default Prediction',
+                content: `
+                    <div class="space-y-4">
+                        <p>This machine learning model uses TensorFlow and deep learning techniques to predict the likelihood of loan defaults with an impressive 92% accuracy rate.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Neural network architecture with 3 hidden layers for complex pattern recognition</li>
+                            <li>Data preprocessing pipeline for handling missing values and outliers</li>
+                            <li>Feature engineering to extract relevant financial indicators</li>
+                            <li>Hyperparameter optimization with grid search</li>
+                            <li>Model explainability using SHAP values for transparent decision-making</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>TensorFlow 2.5 and Keras for model development</li>
+                            <li>Python's scikit-learn for evaluation metrics</li>
+                            <li>Pandas and NumPy for data manipulation</li>
+                            <li>Matplotlib and Seaborn for visualization</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Achievements:</h4>
+                        <p>The model is currently being used by a fintech startup to screen loan applications, reducing default rates by 15% and saving approximately $250,000 in the first quarter of implementation.</p>
+                    </div>
+                `
+            },
+            'speaker-recognition': {
+                title: 'Speaker Recognition System',
+                content: `
+                    <div class="space-y-4">
+                        <p>An advanced AI-based voice recognition system using IBM Watson for accurate speaker authentication with multi-factor security.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Voice biometric authentication with 98.5% accuracy</li>
+                            <li>Real-time processing with low latency (< 500ms)</li>
+                            <li>Anti-spoofing technology to prevent replay attacks</li>
+                            <li>Integration with existing security systems</li>
+                            <li>Voice-based commands for hands-free operation</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>IBM Watson Speech-to-Text and Speaker Recognition APIs</li>
+                            <li>JavaScript for frontend development</li>
+                            <li>WebRTC for audio capturing</li>
+                            <li>Node.js backend for API integration</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Impact:</h4>
+                        <p>This system is deployed in a high-security facility, improving access control efficiency by 42% while maintaining rigorous security standards. It's also being adapted for banking authentication systems.</p>
+                    </div>
+                `
+            },
+            'secure-messaging': {
+                title: 'Secure Messaging App',
+                content: `
+                    <div class="space-y-4">
+                        <p>A fully encrypted, privacy-focused messaging application with military-grade security and zero knowledge architecture.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>End-to-end encryption using AES-256 and RSA-4096</li>
+                            <li>Zero-knowledge architecture - server never has access to decryption keys</li>
+                            <li>Self-destructing messages with customizable timers</li>
+                            <li>Secure file sharing with encryption</li>
+                            <li>Screen security features preventing screenshots</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>React for frontend development</li>
+                            <li>Node.js with Express for backend</li>
+                            <li>WebCrypto API for client-side encryption</li>
+                            <li>Signal Protocol for secure message exchange</li>
+                            <li>MongoDB for secure data storage</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Security Certifications:</h4>
+                        <p>The application has passed independent security audits by two leading cybersecurity firms and received EAL4+ Common Criteria certification for security compliance.</p>
+                    </div>
+                `
+            },
+            'smart-home': {
+                title: 'Smart Home Automation',
+                content: `
+                    <div class="space-y-4">
+                        <p>A comprehensive IoT-based home automation system featuring voice control, energy optimization, and seamless mobile integration.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Voice-controlled home environment management (lights, temperature, security)</li>
+                            <li>Energy usage optimization with machine learning algorithms</li>
+                            <li>Intelligent scheduling based on user behavior patterns</li>
+                            <li>Remote monitoring and control via mobile application</li>
+                            <li>Integration with major smart home ecosystems (Google Home, Amazon Alexa)</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Arduino and ESP32 microcontrollers</li>
+                            <li>Embedded C for device programming</li>
+                            <li>MQTT for device communication</li>
+                            <li>React Native for cross-platform mobile app</li>
+                            <li>TensorFlow Lite for edge AI processing</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Results:</h4>
+                        <p>The system reduces energy consumption by an average of 23% while improving comfort through personalized environment control. It has been installed in 15 homes as part of a pilot program.</p>
+                    </div>
+                `
+            },
+            'quantum-simulator': {
+                title: 'Quantum Algorithm Simulator',
+                content: `
+                    <div class="space-y-4">
+                        <p>An educational and research tool for simulating quantum algorithms using IBM's Qiskit framework, making quantum computing concepts accessible to students and researchers.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Visual representation of quantum circuits and states</li>
+                            <li>Implementation of key quantum algorithms (Shor's, Grover's, etc.)</li>
+                            <li>Comparison between classical and quantum approaches</li>
+                            <li>Interactive tutorials with step-by-step explanations</li>
+                            <li>Integration with IBM Quantum Experience for real quantum hardware execution</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>IBM Qiskit for quantum circuit design</li>
+                            <li>Python for backend development</li>
+                            <li>NumPy and SciPy for numerical computations</li>
+                            <li>Matplotlib and Plotly for visualization</li>
+                            <li>Flask for web service deployment</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Impact:</h4>
+                        <p>The simulator is being used in 3 university courses on quantum computing and has been accessed by over 500 students worldwide. It was featured in IBM's Quantum Challenge 2022.</p>
+                    </div>
+                `
+            },
+            'portfolio-website': {
+                title: 'Portfolio Website',
+                content: `
+                    <div class="space-y-4">
+                        <p>A modern, responsive portfolio website built with React and TailwindCSS, featuring interactive elements and SEO optimization.</p>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Key Features:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Responsive design that works flawlessly on all devices</li>
+                            <li>Interactive project showcase with detailed information</li>
+                            <li>Dark/light mode with system preference detection</li>
+                            <li>Smooth animations and transitions for enhanced UX</li>
+                            <li>Optimized loading times with lazy-loading components</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Technologies Used:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>React for component-based UI development</li>
+                            <li>TailwindCSS for styling and responsive design</li>
+                            <li>Framer Motion for smooth animations</li>
+                            <li>React Router for navigation</li>
+                            <li>Firebase for hosting and contact form backend</li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-semibold mt-4">Results:</h4>
+                        <p>The portfolio has a lighthouse performance score of 96/100 and has helped secure multiple freelance contracts and job interviews. The design has been featured in a web development showcase.</p>
+                    </div>
+                `
+            }
+        };
+
+        // Chatbot responses
+        const chatbotResponses = {
+            'skills': "I specialize in AI/ML, web development, cybersecurity, and electronics. My technical skills include Python, TensorFlow, React, and embedded systems design. I'm currently learning quantum computing with IBM's Qiskit.",
+            'projects': "My notable projects include a loan default prediction model with 92% accuracy, a speaker recognition system using IBM Watson, and a secure messaging app with end-to-end encryption. I've also built smart home automation systems and a quantum algorithm simulator.",
+            'education': "I hold a B.Tech in Electronics & Communication Engineering and a Master's in Computer Science with specialization in AI and Machine Learning. I'm currently pursuing additional studies in quantum computing.",
+            'experience': "I have over 5 years of experience working across electronics and software domains. My experience includes AI model development, secure application design, and IoT systems implementation.",
+            'contact': "You can reach me at contact or through the contact form on this website. I'm open to collaboration opportunities and technical discussions.",
+            'default': "I'm an AI assistant representing the portfolio owner. I can tell you about their skills, projects, education, experience, or how to contact them. What would you like to know?"
+        };
+
+        // Chatbot responses function
+        function getChatbotResponse(message) {
+            message = message.toLowerCase();
+            
+            if (message.includes('skill') || message.includes('what can you do')) {
+                return chatbotResponses.skills;
+            } else if (message.includes('project') || message.includes('work')) {
+                return chatbotResponses.projects;
+            } else if (message.includes('education') || message.includes('study') || message.includes('degree')) {
+                return chatbotResponses.education;
+            } else if (message.includes('experience') || message.includes('work history')) {
+                return chatbotResponses.experience;
+            } else if (message.includes('contact') || message.includes('email') || message.includes('reach')) {
+                return chatbotResponses.contact;
+            } else {
+                return chatbotResponses.default;
+            }
+        }
+
+        // Initialize theme based on user preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Theme toggle handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('dark');
+            });
+
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                if (navMenu.classList.contains('h-0')) {
+                    navMenu.classList.remove('h-0', '-translate-y-full');
+                    navMenu.classList.add('h-auto', 'translate-y-0');
+                } else {
+                    navMenu.classList.remove('h-auto', 'translate-y-0');
+                    navMenu.classList.add('h-0', '-translate-y-full');
+                }
+            });
+
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('#nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('h-auto', 'translate-y-0');
+                    navMenu.classList.add('h-0', '-translate-y-full');
+                });
+            });
+
+            // Back to top button
+            const backToTop = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Animate skill bars on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.width = entry.target.getAttribute('style').split(':')[1];
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.progress').forEach(progress => {
+                // Initially set width to 0
+                const originalWidth = progress.style.width;
+                progress.style.width = '0%';
+                
+                // Observe the progress bar
+                observer.observe(progress);
+            });
+
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // In a real application, you would send this data to a server
+                alert(`Thank you, ${name}! Your message has been received. I'll get back to you soon.`);
+                
+                // Reset form
+                contactForm.reset();
+            });
+
+            // Chatbot functionality
+            const chatbotForm = document.getElementById('chatbot-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            
+            chatbotForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+                
+                // Add user message to chat
+                chatMessages.innerHTML += `
+                    <div class="flex items-start justify-end">
+                        <div class="bg-primary p-3 rounded-lg max-w-[90%] text-white">
+                            <p>${userMessage}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center ml-2 flex-shrink-0">
+                            <i class="fas fa-user text-sm text-gray-600 dark:text-gray-300"></i>
+                        </div>
+                    </div>
+                `;
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Add typing indicator
+                const typingIndicatorId = 'typing-indicator-' + Date.now();
+                chatMessages.innerHTML += `
+                    <div id="${typingIndicatorId}" class="flex items-start">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 flex-shrink-0">
+                            <i class="fas fa-robot text-sm"></i>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 dark:bg-opacity-30 p-3 rounded-lg">
+                            <p class="text-gray-800 dark:text-gray-200 typing-indicator">
+                                <span>.</span><span>.</span><span>.</span>
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Get bot response after a delay
+                setTimeout(function() {
+                    // Remove typing indicator
+                    document.getElementById(typingIndicatorId).remove();
+                    
+                    // Add bot response
+                    const botResponse = getChatbotResponse(userMessage);
+                    chatMessages.innerHTML += `
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white mr-2 flex-shrink-0">
+                                <i class="fas fa-robot text-sm"></i>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 dark:bg-opacity-30 p-3 rounded-lg max-w-[90%]">
+                                <p class="text-gray-800 dark:text-gray-200">${botResponse}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            });
+        });
+
+        // Project modal functions
+        function viewProject(projectId) {
+            const modal = document.getElementById('project-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            if (projectDetails[projectId]) {
+                modalTitle.textContent = projectDetails[projectId].title;
+                modalContent.innerHTML = projectDetails[projectId].content;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('project-modal');
+            if (event.target === modal) {
+                closeProjectModal();
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80, // Adjust for fixed header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
